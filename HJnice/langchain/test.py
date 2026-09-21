@@ -1,3 +1,1 @@
 from langchain_community.chat_models import ChatTongyi
-from langchain_community.llms.tongyi import Tongyi
-from langchain_community.embeddings import DashScopeEmbeddings
