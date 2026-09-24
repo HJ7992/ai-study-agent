@@ -50,3 +50,11 @@ while True:
     else:
         break
 
+# reply = agent.stream({
+#     "messages":[("user",user_text),]
+# },config=config,stream_mode="messages")  #########发起请求时，添加stream_mode="messages"参数
+#
+#
+# for chunk,metadata in reply:
+#     if chunk.content:
+#         print(chunk.content,end="",flush=True) ####流式输出打印
