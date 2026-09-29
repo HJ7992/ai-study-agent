@@ -3,6 +3,7 @@
 opencode.json
 __pycache__/
 *.pyc
+.vscode
 
 # 文档加载脚本的示例文件由 make_samples() 自动生成，无需入库
 HJlangchain/07-RAG/sample_docs/
