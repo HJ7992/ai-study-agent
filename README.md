@@ -56,7 +56,7 @@ cp .env.example .env
 
 ```bash
 # 基础：通义千问流式输出
-python HJnice/langchain/test.py
+python HJnice/langchain/2.test.py
 
 # 基础：聊天模型 + System Prompt
 python "HJnice/langchain/聊天模型对接.py"
@@ -78,8 +78,8 @@ python HJlangchain/03短期记忆.py
 
 | 脚本 | 核心知识点 |
 |------|-----------|
-| `test.py` | `Tongyi` LLM 的 `invoke` / `stream` |
-| `聊天模型对接.py` | `ChatTongyi`，消息角色（system / user），`stream` 逐块打印 |
+| `2.test.py` | `Tongyi` LLM 的 `invoke` / `stream` |
+| `3.聊天模型对接.py` | `ChatTongyi`，消息角色（system / user），`stream` 逐块打印 |
 | `1.实现多轮对话.py` | 用类封装对话历史，`yield` 实现生成器式流式回复 |
 | `01.py` | `create_agent` 创建 Agent，`@tool()` 定义工具，docstring 即工具描述 |
 | `02.py` | `@tool(名称, description)` 自定义工具名与描述，多工具按需调度 |
