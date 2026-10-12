@@ -10,3 +10,5 @@ HJlangchain/07-RAG/sample_docs/
 
 # ChromaDB 运行时生成的本地向量库，不入库
 HJlangchain/**/chromaDBhj/
+HJnice/langchain/rag-pratice/chromadb/
+HJnice/langchain/rag-pratice/chroma-data/

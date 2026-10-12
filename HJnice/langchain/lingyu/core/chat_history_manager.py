@@ -1,7 +1,7 @@
 from langchain_core.chat_history import BaseChatMessageHistory, InMemoryChatMessageHistory
 from langchain_core.messages import BaseMessage
 
-##全局存储
+##全局存储对话历史
 _session_store : dict[str,BaseChatMessageHistory] = {}
 
 class ChatHistoryManager:
@@ -28,8 +28,11 @@ class ChatHistoryManager:
 
     def get_recent_messages(self,count:int)->list[BaseMessage]:
         """get recent messages"""
-        messages = self.get_messages()
-        return messages[-count:] if  messages else []
+        if  count:
+            messages = self.get_messages()
+            return messages[-count:] if  messages else []
+        else:
+            return []
 
     def clear(self)->None:
         """clear  messages"""

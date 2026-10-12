@@ -1,4 +1,5 @@
-from langchain_community.chat_models import ChatTongyi
+
+from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import BaseMessage, HumanMessage, ChatMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -48,14 +49,15 @@ class SummaryManager:
 
     def should_trigger_summary(self,)->bool:
         """是否达到阈值"""
-        return _unsummarized_count[self.chat_session_id] >= SUMMARY_BATCH_SIZE
+        return _unsummarized_count.get(self.chat_session_id,0) >= SUMMARY_BATCH_SIZE
 
     def generate_increment_summary(
             self,
             old_summary:str,
             new_messages:list[BaseMessage],
-            llm:ChatTongyi | None
+            llm:BaseChatModel | None
                                    )->str:
+        """生成摘要"""
         if not new_messages:
             return old_summary
 
@@ -79,7 +81,7 @@ class SummaryManager:
             result = chain.invoke({})
             new_summary = result.strip()
             return new_summary
-        except :
+        except Exception as e:
             return self._simple_summary(old_summary,messages_text)
 
     def _simple_summary(self,old_summary:str,messages_text:str)->str:
@@ -89,4 +91,4 @@ class SummaryManager:
             return f"摘要 ： {old_part}...{new_part}"
         else:
             new_part = messages_text[:150] if len(messages_text) >= 150 else messages_text
-            return "[摘要] ：{new_part} "
+            return f"[摘要] ：{new_part} "

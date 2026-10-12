@@ -1,0 +1,2 @@
+INTENT_RECOGNIZER_MODEL = 'qwen-flash'
+DASHSCOPE_MODEL = 'qwen3-max'
