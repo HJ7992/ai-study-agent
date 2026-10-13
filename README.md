@@ -21,7 +21,12 @@ ai-agent/
     ├── 01.py                          # create_agent + @tool 自定义工具（天气/时间），DeepSeek
     ├── 02.py                          # 多工具协作（排班/日期/天气），Kimi（火山方舟）
     ├── 03短期记忆.py                   # InMemorySaver checkpointer + thread_id 会话记忆
-    └── 04memory_store.py              # InMemoryStore 长期记忆（待补充）
+    ├── 04memory_store.py              # InMemoryStore 长期记忆（待补充）
+    ├── langsmith/                     # LangSmith 可观测性
+    │   ├── 01langsmith.py             # @traceable 装饰器追踪 LLM 调用
+    │   └── 02operation.py             # @traceable + metadata/tags 追踪 Prompt 链路
+    └── agent/
+        └── function_calling.py        # OpenAI SDK 原生 Function Calling（航班查询/票价查询），火山方舟
 ```
 
 ## 环境准备
@@ -48,7 +53,8 @@ cp .env.example .env
 |------|------|----------|
 | `dashscope_API_KEY` | 通义千问 DashScope | `HJnice/langchain/` 全部 |
 | `DS_API_KEY` / `DS_URL` | DeepSeek | `HJlangchain/01.py` |
-| `FZ_API_KEY` / `FZ_BASE_URL` | 火山方舟（Kimi） | `HJlangchain/02.py`、`03短期记忆.py` |
+| `FZ_API_KEY` / `FZ_BASE_URL` | 火山方舟（Kimi） | `HJlangchain/02.py`、`03短期记忆.py`、`agent/function_calling.py` |
+| `LANGSMITH_API_KEY` | LangSmith 追踪 | `HJlangchain/langsmith/` 全部 |
 
 > `.env` 已加入 `.gitignore`，不会提交到仓库。
 
@@ -72,6 +78,12 @@ python HJlangchain/02.py
 
 # Agent：短期记忆（同一 thread_id 内多轮追问"我今天该做啥来着"）
 python HJlangchain/03短期记忆.py
+
+# LangSmith：@traceable 追踪 LLM 调用（到 smith.langchain.com 查看 Trace）
+python HJlangchain/langsmith/01langsmith.py
+
+# Function Calling：OpenAI SDK 原生工具调用（问"查北京到上海的航班"看效果）
+python HJlangchain/agent/function_calling.py
 ```
 
 ## 知识点速记
@@ -84,6 +96,9 @@ python HJlangchain/03短期记忆.py
 | `01.py` | `create_agent` 创建 Agent，`@tool()` 定义工具，docstring 即工具描述 |
 | `02.py` | `@tool(名称, description)` 自定义工具名与描述，多工具按需调度 |
 | `03短期记忆.py` | `InMemorySaver` + `configurable.thread_id` 实现会话级记忆；`stream_mode="messages"` 流式输出 |
+| `01langsmith.py` | `LANGSMITH_TRACING` 环境变量开启追踪，`@traceable(run_type="llm")` 装饰函数 |
+| `02operation.py` | `@traceable(metadata=..., tags=...)` 给 Trace 打标签，PromptTemplate 链路追踪 |
+| `agent/function_calling.py` | OpenAI SDK `tools` 参数定义 JSON Schema 工具；模型返回 `tool_calls` 后本地执行函数、以 `role="tool"` + `tool_call_id` 回填结果再二次请求 |
 
 ## 待补充
 
